@@ -2,12 +2,12 @@
 
 ## Description
 
-**Gundog.sim** is an individual-based model that predicts the movement paths of animals by simulating their movement using dead-reckoning (DR) calculations through a spatial grid system. The model uses high-resolution dead-reckoning data to inform movement decisions, incorporating empirical distributions of fundamental step lengths (Fstepdistance), turn angles (Fturnangle), and compass headings (H). By dividing the movement landscape into grid cells and segmenting movement data by journey phase (outbound or inbound), the model dynamically adjusts agent movements to reflect realistic behavioral patterns observed in empirical studies.
+**Gundog.sim** is an individual-based model that predicts the movement paths of animals by simulating their movement using dead-reckoning (DR) calculations through a spatial grid system. The model uses high-resolution dead-reckoning data to inform movement decisions, incorporating empirical distributions of fundamental step lengths (Fstepdistance), turn angles (Fturnangle), and compass headings (H). By dividing the movement landscape into grid cells with optional further segmenation of data by journey phase (outbound and inbound), the model dynamically adjusts agent movements to reflect realistic behavioral patterns observed in empirical studies.
 
 ### Key Features
 
-- **Empirical Distributions:** Incorporates empirical frequency distributions (Empirical Cumulative Distribution Functions, ECDFs) for compass heading, step lengths and turn angles specific to each grid cell and journey phase.
-- **Journey Phases:** Differentiates between outbound and inbound phases, allowing for phase-specific movement behaviors.
+- **Empirical Distributions:** Incorporates empirical frequency distributions (Empirical Cumulative Distribution Functions, ECDFs) for compass heading, step lengths and turn angles specific to each grid cell and (optional) journey phase.
+- **Journey Phases:** Differentiates between outbound and inbound phases (relevant for central place foragers)
 - **Autocorrelation Adjustments:** Applies first-order autocorrelation to movement metrics to capture temporal dependencies in movement patterns.
 - **Customizable Parameters:** Offers extensive customization options for distributions, journey phase handling, autocorrelation settings, and more.
 
@@ -67,7 +67,7 @@ Set your initial conditions and model parameters as needed. Refer to the Functio
 | autocorr.step.length  | Apply first-order autocorrelation to step length if set to TRUE.                                                                                                      | FALSE               |
 | autocorr.heading      | Apply first-order autocorrelation to heading if set to TRUE.                                                                                                         | FALSE               |
 | auto.corr.heading.method | Method for calculating autocorrelation for heading: "trig" (trigonometric), "circ.corr" (circular correlation).                                                    | "circ.corr"         |
-| autocorr.scope        | Scope for autocorrelation calculation. Options: "global", "per_journey_phase", "per_grid". This is calculated in arranged time sequence per bird and a grand mean computed per journey phase/sector or just global values, depending on scope used. | "per_grid"          |
+| autocorr.scope        | Scope for autocorrelation calculation. Options: "global", "per_journey_phase", "per_grid". This is calculated in arranged time sequence per individaul and a grand mean computed per journey phase/sector or just global values, depending on scope used. | "per_grid"          |
 | seed                  | Seed for reproducibility in random sampling.                                                                                                                         | 10                  |
 | agents                | Number of agents to simulate.                                                                                                                                        | 5                   |
 | max.distance.moved    | Maximum cumulative distance (meters) an agent can travel.                                                                                                            | 200000              |
@@ -77,7 +77,7 @@ Set your initial conditions and model parameters as needed. Refer to the Functio
 | head.offset.out       | Heading offset to apply when in "outbound" journey phase. If journey_phase is not specified, this will be applied to all values.                                      | 0                  |
 | head.offset.in        | Heading offset to apply when in "inbound" journey phase.                                                                                                              | 0                 |
 | use_global_phase_only | TRUE to use journey phase only when computing heading frequency distributions (no grid-based distributions), FALSE for grid + journey phase.                          | TRUE                |
-| num_ID_heading  | Controls which IDs are used to compute the heading frequency distributions for the simulation. Options: NULL (all IDs), positive integer (randomly selects specified number of IDs), or character vector/factor of specific IDs. Falls back to using all available data for a phase if insufficient data exists. | NULL |
+| num_ID_heading  | Controls which IDs are used to compute the heading frequency distributions for the simulation. Options: NULL (all IDs), positive integer (randomly selects specified number of IDs), or character vector/factor of specific IDs. Falls back to using all available data (for the given sampled IDs) for a phase if insufficient data exists. | NULL |
 | user_choice           | Defines turning movement adjustment strategy. Options include: "target_heading", "probability_turn", "independent_turn", "just_heading".                             | "target_heading"    |
 | plot                  | If TRUE, summary plots are produced.                                                                                                                                | TRUE                |
 
