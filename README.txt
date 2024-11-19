@@ -38,49 +38,6 @@ Ensure your data frame (df) contains the following columns (though names of colu
 - **gridded.X.d:** X-coordinate of the grid cell.
 - **gridded.Y.d:** Y-coordinate of the grid cell.
 
-### Define Initial Conditions and Parameters
-
-Set your initial conditions and model parameters as needed. Refer to the Function Parameters section for detailed descriptions.
-
-
-# Function Parameters
-
-| Parameter              | Description                                                                                                                                                           | Default Value       |
-|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
-| ID                    | Unique identifier for each animal contributing empirical data.                                                                                                        | 1                   |
-| datetime              | Timestamp of each recorded observation. Must be in POSIXct format.                                                                                                   | Required            |
-| heading               | Heading in degrees (0-360) for each observation.                                                                                                                     | Required            |
-| turn.angle            | Absolute turn angle in degrees for each observation.                                                                                                                 | Required            |
-| step.length           | Distance traveled between consecutive observations.                                                                                                                  | Required            |
-| journey_phase         | Optional. Journey phase label for each observation. Must be labeled as "outbound" or "inbound".                                                                       | Required            |
-| lo                    | Initial longitude coordinate of the agent's starting position.                                                                                                       | Required            |
-| la                    | Initial latitude coordinate of the agent's starting position.                                                                                                        | Required            |
-| grid.x                | X-coordinate of the grid cell for each observation. Must be in decimal longitude format.                                                                              | Required            |
-| grid.y                | Y-coordinate of the grid cell for each observation. Must be in decimal latitude format.                                                                               | Required            |
-| min.sector.data       | Minimum data points required per grid sector to compute distributions. If insufficient, fallback to 'neighbors' or global options occurs.                             | 75                  |
-| bandwidth             | Smoothing bandwidth for frequency distribution. Options include "ucv", "nrd0", "SJ".                                                                                 | "ucv"               |
-| quantile.turn.angle   | Quantile threshold for filtering turn angle data.                                                                                                                     | 0.999               |
-| quantile.step.length  | Quantile threshold for filtering step length data.                                                                                                                    | 0.999               |
-| quantile.scope        | Scope for quantile calculations. Options: "global", "per_journey_phase", "per_grid". The latter calculates and applies quantile filtering per journey phase and grid cell. | "per_journey_phase" |
-| radius                | Search radius (in grid cells) for neighboring data in fallback scenarios. 1 = directly adjacent cells (including diagonals), 2 = two cells away, etc.                 | 1                   |
-| step_size             | Step size for x-axis in frequency distribution (adjusts granularity).                                                                                                | 1                   |
-| autocorr.turn.angle   | Apply first-order autocorrelation to turn angle if set to TRUE.                                                                                                       | FALSE               |
-| autocorr.step.length  | Apply first-order autocorrelation to step length if set to TRUE.                                                                                                      | FALSE               |
-| autocorr.heading      | Apply first-order autocorrelation to heading if set to TRUE.                                                                                                         | FALSE               |
-| auto.corr.heading.method | Method for calculating autocorrelation for heading: "trig" (trigonometric), "circ.corr" (circular correlation).                                                    | "circ.corr"         |
-| autocorr.scope        | Scope for autocorrelation calculation. Options: "global", "per_journey_phase", "per_grid". This is calculated in arranged time sequence per bird and a grand mean computed per journey phase/sector or just global values, depending on scope used. | "per_grid"          |
-| seed                  | Seed for reproducibility in random sampling.                                                                                                                         | 10                  |
-| agents                | Number of agents to simulate.                                                                                                                                        | 5                   |
-| max.distance.moved    | Maximum cumulative distance (meters) an agent can travel.                                                                                                            | 270000              |
-| switch_proportion     | Proportion of maximum distance at which agents switch journey phase. Irrelevant if journey_phase is not supplied.                                                     | 0.45                |
-| switch_based_on       | Switching method: "cumulative" or "straight_line".                                                                                                                   | "cumulative"        |
-| switch_distance       | Straight-line distance in meters for switching (used if switch_based_on == "straight_line").                                                                          | 50000               |
-| head.offset.out       | Heading offset to apply when in "outbound" journey phase. If journey_phase is not specified, this will be applied to all values.                                      | 50                  |
-| head.offset.in        | Heading offset to apply when in "inbound" journey phase.                                                                                                              | -50                 |
-| use_global_phase_only | TRUE to use journey phase only when computing heading frequency distributions (no grid-based distributions), FALSE for grid + journey phase.                          | TRUE                |
-| num_ID_heading  | Controls which IDs are used to compute the heading frequency distributions for the simulation. Options: NULL (all IDs), positive integer (randomly selects specified number of IDs), or character vector/factor of specific IDs. Falls back to using all available data for a phase if insufficient data exists. | NULL |
-| user_choice           | Defines turning movement adjustment strategy. Options include: "target_heading", "probability_turn", "independent_turn", "just_heading".                             | "target_heading"    |
-| plot                  | If TRUE, summary plots are produced.                                                                                                                                | TRUE                |
 
 
 ### Run the Simulation
