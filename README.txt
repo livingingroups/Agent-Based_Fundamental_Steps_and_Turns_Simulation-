@@ -124,7 +124,6 @@ result <- Gundog.sim(
   user_choice = "target_heading",
   plot = TRUE
 )
-
 ```
 
 ## Customization Options
