@@ -58,8 +58,8 @@ Set your initial conditions and model parameters as needed. Refer to the Functio
 | grid.y                | Y-coordinate of the grid cell for each observation. Must be in decimal latitude format.                                                                               | Required            |
 | min.sector.data       | Minimum data points required per grid sector to compute distributions. If insufficient, fallback to 'neighbors' or global options occurs.                             | 75                  |
 | bandwidth             | Smoothing bandwidth for frequency distribution. Options include "ucv", "nrd0", "SJ".                                                                                 | "ucv"               |
-| quantile.turn.angle   | Quantile threshold for filtering turn angle data.                                                                                                                     | 0.999               |
-| quantile.step.length  | Quantile threshold for filtering step length data.                                                                                                                    | 0.999               |
+| quantile.turn.angle   | Quantile threshold for filtering turn angle data.                                                                                                                     | 1               |
+| quantile.step.length  | Quantile threshold for filtering step length data.                                                                                                                    | 1               |
 | quantile.scope        | Scope for quantile calculations. Options: "global", "per_journey_phase", "per_grid". The latter calculates and applies quantile filtering per journey phase and grid cell. | "per_journey_phase" |
 | radius                | Search radius (in grid cells) for neighboring data in fallback scenarios. 1 = directly adjacent cells (including diagonals), 2 = two cells away, etc.                 | 1                   |
 | step_size             | Step size for x-axis in frequency distribution (adjusts granularity).                                                                                                | 1                   |
@@ -70,12 +70,12 @@ Set your initial conditions and model parameters as needed. Refer to the Functio
 | autocorr.scope        | Scope for autocorrelation calculation. Options: "global", "per_journey_phase", "per_grid". This is calculated in arranged time sequence per bird and a grand mean computed per journey phase/sector or just global values, depending on scope used. | "per_grid"          |
 | seed                  | Seed for reproducibility in random sampling.                                                                                                                         | 10                  |
 | agents                | Number of agents to simulate.                                                                                                                                        | 5                   |
-| max.distance.moved    | Maximum cumulative distance (meters) an agent can travel.                                                                                                            | 270000              |
-| switch_proportion     | Proportion of maximum distance at which agents switch journey phase. Irrelevant if journey_phase is not supplied.                                                     | 0.45                |
+| max.distance.moved    | Maximum cumulative distance (meters) an agent can travel.                                                                                                            | 200000              |
+| switch_proportion     | Proportion of maximum distance at which agents switch journey phase. Irrelevant if journey_phase is not supplied.                                                     | 0.5                |
 | switch_based_on       | Switching method: "cumulative" or "straight_line".                                                                                                                   | "cumulative"        |
 | switch_distance       | Straight-line distance in meters for switching (used if switch_based_on == "straight_line").                                                                          | 50000               |
-| head.offset.out       | Heading offset to apply when in "outbound" journey phase. If journey_phase is not specified, this will be applied to all values.                                      | 50                  |
-| head.offset.in        | Heading offset to apply when in "inbound" journey phase.                                                                                                              | -50                 |
+| head.offset.out       | Heading offset to apply when in "outbound" journey phase. If journey_phase is not specified, this will be applied to all values.                                      | 0                  |
+| head.offset.in        | Heading offset to apply when in "inbound" journey phase.                                                                                                              | 0                 |
 | use_global_phase_only | TRUE to use journey phase only when computing heading frequency distributions (no grid-based distributions), FALSE for grid + journey phase.                          | TRUE                |
 | num_ID_heading  | Controls which IDs are used to compute the heading frequency distributions for the simulation. Options: NULL (all IDs), positive integer (randomly selects specified number of IDs), or character vector/factor of specific IDs. Falls back to using all available data for a phase if insufficient data exists. | NULL |
 | user_choice           | Defines turning movement adjustment strategy. Options include: "target_heading", "probability_turn", "independent_turn", "just_heading".                             | "target_heading"    |
@@ -107,18 +107,18 @@ result <- Gundog.sim(
   radius = 1,
   step_size = 1,
   autocorr.turn.angle = FALSE,
-  autocorr.step.length = TRUE,
+  autocorr.step.length = FALSE,
   autocorr.heading = FALSE,
-  auto.corr.heading.method = "trig",
+  auto.corr.heading.method = "circ",
   autocorr.scope = "per_grid",
   seed = 10,
   agents = 5,
-  max.distance.moved = 270000,
-  switch_proportion = 0.45,
+  max.distance.moved = 200000,
+  switch_proportion = 0.5,
   switch_based_on = "cumulative",
   switch_distance = 50000,
-  head.offset.out = 50,
-  head.offset.in = -50,
+  head.offset.out = 0,
+  head.offset.in = 0,
   num_ID_heading = NULL,
   use_global_phase_only = TRUE,
   user_choice = "target_heading",
